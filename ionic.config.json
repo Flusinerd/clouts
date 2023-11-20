@@ -1,0 +1,7 @@
+{
+  "name": "clouts",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

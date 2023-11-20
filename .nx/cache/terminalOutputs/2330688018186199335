@@ -1,0 +1,68 @@
+- Generating browser application bundles (phase: setup)...
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files                                        | Names          |  Raw Size
+vendor.js                                                  | vendor         |   5.30 MB |
+polyfills.js                                               | polyfills      | 336.65 kB |
+styles.css, styles.js                                      | styles         | 292.56 kB |
+runtime.js                                                 | runtime        |  12.61 kB |
+main.js                                                    | main           |   6.75 kB |
+
+| Initial Total  |   5.94 MB
+
+Lazy Chunk Files                                           | Names          |  Raw Size
+node_modules_ionic_core_components_input-shims_js.js       | input-shims-js |  26.28 kB |
+node_modules_stencil_core_internal_client_shadow-css_js.js | shadow-css-js  |  18.53 kB |
+node_modules_ionic_core_components_index9_js.js            | index9-js      |   6.67 kB |
+src_app_home_home_page_ts.js                               | home-home-page |   4.69 kB |
+node_modules_ionic_core_components_swipe-back_js.js        | swipe-back-js  |   3.41 kB |
+node_modules_ionic_core_components_status-tap_js.js        | status-tap-js  |   2.69 kB |
+
+Build at: 2023-11-20T16:11:36.132Z - Hash: 7e1a10a172281267 - Time: 12145ms
+
+** Angular Live Development Server is listening on localhost:4200, open your browser on http://localhost:4200/ **
+
+
+✔ Compiled successfully.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+runtime.js          | runtime | 12.61 kB |
+main.js             | main    |  6.77 kB |
+
+9 unchanged chunks
+
+Build at: 2023-11-20T16:12:02.158Z - Hash: 3cef6738536ec84d - Time: 382ms
+
+✔ Compiled successfully.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+runtime.js          | runtime | 12.61 kB |
+main.js             | main    |  6.77 kB |
+
+9 unchanged chunks
+
+Build at: 2023-11-20T16:12:03.221Z - Hash: 7924931c05493d2e - Time: 272ms
+
+✔ Compiled successfully.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+runtime.js          | runtime | 12.61 kB |
+
+10 unchanged chunks
+
+Build at: 2023-11-20T16:12:14.703Z - Hash: 7a152ea87d3bea53 - Time: 586ms
+
+✔ Compiled successfully.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+runtime.js          | runtime | 12.61 kB |
+
+10 unchanged chunks
+
+Build at: 2023-11-20T16:12:25.612Z - Hash: f366ca4f0d5ef0a0 - Time: 224ms
+
+✔ Compiled successfully.
