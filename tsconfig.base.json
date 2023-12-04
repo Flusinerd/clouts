@@ -9,6 +9,9 @@
     "target": "es2022",
     "module": "es2020",
     "lib": ["es2018", "dom"],
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "paths": {
+      "models": ["libs/models/src/index.ts"]
+    }
   }
 }

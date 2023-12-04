@@ -1,0 +1,57 @@
+{
+  "name": "clouts-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/clouts-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/clouts-api",
+        "main": "apps/clouts-api/src/main.ts",
+        "tsConfig": "apps/clouts-api/tsconfig.app.json",
+        "assets": ["apps/clouts-api/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/clouts-api/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "clouts-api:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "clouts-api:build:development"
+        },
+        "production": {
+          "buildTarget": "clouts-api:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/clouts-api/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/clouts-api/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
