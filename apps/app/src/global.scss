@@ -24,3 +24,34 @@
 @import '@ionic/angular/css/text-alignment.css';
 @import '@ionic/angular/css/text-transformation.css';
 @import '@ionic/angular/css/flex-utils.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .error {
+    @apply text-red-500 dark:font-semibold mt-1 text-sm;
+  }
+
+  div.input-wrapper {
+    @apply flex flex-col;
+  }
+
+  .image-button {
+    @apply relative z-10 rounded-full 
+    flex justify-center 
+    items-center w-12 h-12 
+    bg-zinc-700 
+    bg-opacity-70 
+    hover:bg-zinc-600 
+    active:bg-zinc-800
+    hover:bg-opacity-70
+    active:bg-opacity-70
+    transition-colors;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}

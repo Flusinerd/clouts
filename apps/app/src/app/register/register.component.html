@@ -1,1 +1,88 @@
-<p>register works!</p>
+<img ngSrc="assets/logo.png" width="200" height="100" priority />
+<main class="mb-8 w-2/3">
+  <h1>Welcome to Clouts</h1>
+  <p class="text-gray-600 dark:text-gray-400">
+    Create an account to get started
+  </p>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="input-wrapper">
+      <ion-item class="ion-no-padding">
+        <ion-input
+          type="text"
+          label="Firstname"
+          placeholder="John"
+          labelPlacement="floating"
+          required
+          formControlName="firstName"
+        ></ion-input>
+      </ion-item>
+    </div>
+    <div class="input-wrapper">
+      <ion-item class="ion-no-padding">
+        <ion-input
+          type="text"
+          label="Lastname"
+          placeholder="Doe"
+          labelPlacement="floating"
+          required
+          formControlName="lastName"
+        ></ion-input>
+      </ion-item>
+    </div>
+    <div class="input-wrapper">
+      <ion-item class="ion-no-padding">
+        <ion-input
+          type="email"
+          label="Email"
+          placeholder="john.doe@example.com"
+          labelPlacement="floating"
+          required
+          formControlName="email"
+        ></ion-input>
+      </ion-item>
+    </div>
+    <div class="input-wrapper">
+      <ion-item class="ion-no-padding">
+        <ion-input
+          type="text"
+          label="Display name"
+          placeholder="johndoe"
+          labelPlacement="floating"
+          required
+          formControlName="displayName"
+        ></ion-input>
+      </ion-item>
+    </div>
+    <div class="input-wrapper">
+      <ion-item class="ion-no-padding">
+        <ion-input
+          type="password"
+          label="Password"
+          labelPlacement="floating"
+          required
+          formControlName="password"
+        ></ion-input>
+      </ion-item>
+    </div>
+    <div class="input-wrapper">
+      <ion-item class="ion-no-padding">
+        <ion-input
+          type="password"
+          label="Repeat password"
+          labelPlacement="floating"
+          required
+          formControlName="passwordConfirm"
+        ></ion-input>
+      </ion-item>
+    </div>
+    <ion-button
+      expand="block"
+      class="ion-margin-top"
+      type="submit"
+      color="primary"
+      [disabled]="!form.valid"
+    >
+      Register
+    </ion-button>
+  </form>
+</main>

@@ -4,6 +4,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { compare, hash } from 'bcrypt';
 import crypto from 'crypto';
 import dayjs from 'dayjs';
@@ -25,8 +26,8 @@ export class AuthService {
     private readonly prisma: PrismaService,
     private readonly config: ConfigService
   ) {
-    this.secret = this.config.get<string>('AUTH_SECRET');
-    if (!this.secret) {
+    this.secret = this.config.get<string>('AUTH_SECRET') ?? '';
+    if (this.secret === '') {
       throw new Error('AUTH_SECRET not set');
     }
   }
@@ -79,22 +80,23 @@ export class AuthService {
       await this.prisma.user.create({
         data: {
           email: data.email,
-          username: data.username,
+          displayName: data.displayName,
           password: passwordHash,
           firstName: data.firstName,
           lastName: data.lastName,
         },
       });
     } catch (e) {
-      if (e.code === 'P2002') {
-        if (e.meta.target.includes('email')) {
+      if (e instanceof PrismaClientKnownRequestError && e.code === 'P2002') {
+        const target: string = (e.meta?.target as string) ?? '';
+        if (target.includes('email')) {
           throw new EmailAlreadyTakenError();
-        } else if (e.meta.target.includes('username')) {
+        } else if (target.includes('username')) {
           throw new UsernameAlreadyTakenError();
         }
       }
       this.logger.error(e);
-      throw new CreatingUserError();
     }
+    throw new CreatingUserError();
   }
 }
