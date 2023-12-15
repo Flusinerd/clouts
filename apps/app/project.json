@@ -21,6 +21,7 @@
             "output": "assets"
           }
         ],
+        "allowedCommonJsDependencies": ["fast-deep-equal"],
         "styles": [
           "apps/app/src/theme/variables.scss",
           "apps/app/src/global.scss"
