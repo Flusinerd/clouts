@@ -1,0 +1,43 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "clouts-storage-gateway",
+  "root": "apps/clouts-storage-gateway",
+  "sourceRoot": "apps/clouts-storage-gateway/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "go build -o=../../dist/apps/clouts-storage-gateway/storage-gateway ./src/main.go",
+          "cp ./host.json ../../dist/apps/clouts-storage-gateway/host.json",
+          "cp ./local.settings.json ../../dist/apps/clouts-storage-gateway/local.settings.json",
+          "cp ./.funcignore ../../dist/apps/clouts-storage-gateway/.funcignore",
+          "cp -r ./function.json ../../dist/apps/clouts-storage-gateway/function.json"
+        ],
+        "cwd": "apps/clouts-storage-gateway",
+        "parallel": false
+      }
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "go run ./src/main.go",
+        "cwd": "apps/clouts-storage-gateway"
+      }
+    },
+    "serve-azure": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "func start",
+        "cwd": "dist/apps/clouts-storage-gateway"
+      },
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "clouts-storage-gateway"
+        }
+      ]
+    }
+  }
+}

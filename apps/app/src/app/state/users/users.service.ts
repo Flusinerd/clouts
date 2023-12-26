@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { injectMutation, injectQuery, injectQueryClient } from '@ngneat/query';
@@ -23,8 +23,21 @@ export class UsersService {
 
   public updateUser() {
     return this.mutation({
-      mutationFn: ({ id, data }: { id: string; data: UpdateUserRequest }) =>
-        this.http.patch<PublicUser>(`/api/users/${id}`, data),
+      mutationFn: ({ id, data }: { id: string; data: UpdateUserRequest }) => {
+        const formData = new FormData();
+        for (const key in data) {
+          if (data[key as keyof UpdateUserRequest]) {
+            formData.append(key, data[key as keyof UpdateUserRequest]);
+          }
+        }
+
+        const headers = new HttpHeaders();
+        headers.append('Content-Type', 'multipart/form-data');
+
+        return this.http.patch<PublicUser>(`/api/users/${id}`, formData, {
+          headers,
+        });
+      },
       onSuccess: async (user) => {
         this.queryClient.invalidateQueries({
           queryKey: ['user', user.id] as const,

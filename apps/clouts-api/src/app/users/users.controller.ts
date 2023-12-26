@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, Patch } from '@nestjs/common';
 import { PublicUser, UpdateUserRequest } from 'models';
+import { FormDataRequest } from 'nestjs-form-data';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -13,6 +14,7 @@ export class UsersController {
   }
 
   @Patch(':id')
+  @FormDataRequest()
   async updateOne(@Param('id') id: string, @Body() data: UpdateUserRequest) {
     const user = await this.usersService.updateUser(id, data);
     return PublicUser.parse(user);

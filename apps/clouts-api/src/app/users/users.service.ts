@@ -2,15 +2,23 @@ import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { UpdateUserRequest } from 'models';
+import { FileSystemStoredFile } from 'nestjs-form-data';
 import { PrismaService } from '../prisma/prisma.service';
+import { StorageService } from '../storage/storage.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly prisma: PrismaService) {}
+  private readonly logger = new Logger(UsersService.name);
+
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly storage: StorageService,
+  ) {}
 
   async findOne(id: string) {
     const user = await this.prisma.user.findUnique({
@@ -25,6 +33,26 @@ export class UsersService {
   }
 
   async updateUser(id: string, data: UpdateUserRequest) {
+    let profilePictureUrl: string | undefined;
+
+    if (data.profilePicture) {
+      try {
+        const file = data.profilePicture as FileSystemStoredFile;
+        const uploadResult = await this.storage.uploadProfileImage(
+          id,
+          file.path,
+          file.mimeType,
+        );
+
+        console.log(uploadResult);
+      } catch (error) {
+        this.logger.error(error);
+        throw new InternalServerErrorException(
+          "Error uploading user's profile picture",
+        );
+      }
+    }
+
     try {
       return await this.prisma.user.update({
         where: { id },

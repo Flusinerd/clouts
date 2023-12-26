@@ -43,12 +43,58 @@
     flex justify-center 
     items-center w-12 h-12 
     bg-zinc-700 
-    bg-opacity-70 
+    bg-opacity-40 
     hover:bg-zinc-600 
     active:bg-zinc-800
-    hover:bg-opacity-70
-    active:bg-opacity-70
+    hover:bg-opacity-40
+    active:bg-opacity-40
     transition-colors;
+
+    img {
+      @apply invert;
+    }
+  }
+
+  .icon-button {
+    @apply bg-transparent flex text-primary items-center text-base font-bold;
+
+    img {
+      @apply transition-all;
+      filter: invert(42%) sepia(11%) saturate(3834%) hue-rotate(251deg)
+        brightness(93%) contrast(87%);
+    }
+
+    &:hover {
+      img {
+        filter: invert(52%) sepia(23%) saturate(1247%) hue-rotate(249deg)
+          brightness(86%) contrast(90%);
+      }
+    }
+
+    &:active {
+      img {
+        filter: invert(37%) sepia(66%) saturate(716%) hue-rotate(252deg)
+          brightness(82%) contrast(88%);
+      }
+    }
+  }
+
+  .icon-button.neutral {
+    @apply text-black dark:text-white;
+
+    img {
+      @apply filter-none dark:invert;
+    }
+
+    &:hover {
+      img {
+      }
+    }
+
+    &:active {
+      img {
+      }
+    }
   }
 }
 
