@@ -5,6 +5,7 @@ import {
   Component,
   effect,
   inject,
+  signal,
 } from '@angular/core';
 import {
   FormControl,
@@ -12,7 +13,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Camera, CameraResultType } from '@capacitor/camera';
+import { Camera, CameraResultType, Photo } from '@capacitor/camera';
 import { IonicModule } from '@ionic/angular';
 import { map } from 'rxjs';
 import { BackButtonComponent } from '../../back-button/back-button.component';
@@ -55,12 +56,13 @@ export class EditProfileComponent {
     location: new FormControl<string | null>(null, {
       validators: [Validators.maxLength(60)],
     }),
-    bannerPicture: new FormControl<File | null>(null),
-    profilePicture: new FormControl<File | null>(null),
+    bannerPicture: new FormControl<File | undefined>(undefined),
+    profilePicture: new FormControl<File | undefined>(undefined),
   });
 
   private readonly usersService = inject(UsersService);
-  private userId = 'f40eb085-0043-486b-ae56-9f440ac8a480';
+  readonly userId = 'f40eb085-0043-486b-ae56-9f440ac8a480';
+
   private user = this.usersService.getUser(this.userId).result;
   private user$ = this.usersService
     .getUser(this.userId)
@@ -70,6 +72,9 @@ export class EditProfileComponent {
   readonly hasChanges$ = this.form.valueChanges.pipe(
     formHasChanges(this.user$),
   );
+
+  readonly bannerPictureUri = signal<string | undefined>(undefined);
+  readonly profilePictureUri = signal<string | undefined>(undefined);
 
   constructor() {
     effect(() => {
@@ -96,14 +101,27 @@ export class EditProfileComponent {
       id: this.userId,
       data: this.form.value,
     });
+
+    this.form.controls.bannerPicture.setValue(undefined);
+    this.form.controls.profilePicture.setValue(undefined);
+    this.bannerPictureUri.set(undefined);
+    this.profilePictureUri.set(undefined);
+
+    this.changeDetector.markForCheck();
   }
 
   async takePicture(source: 'banner' | 'profile') {
-    const image = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: true,
-      resultType: CameraResultType.Uri,
-    });
+    let image: Photo;
+    try {
+      image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: true,
+        resultType: CameraResultType.Uri,
+      });
+    } catch (err) {
+      console.error(err);
+      return;
+    }
 
     const imageUrl = image.webPath;
     if (!imageUrl) {
@@ -117,8 +135,10 @@ export class EditProfileComponent {
 
     if (source === 'banner') {
       this.form.patchValue({ bannerPicture: file });
+      this.bannerPictureUri.set(imageUrl);
     } else {
       this.form.patchValue({ profilePicture: file });
+      this.profilePictureUri.set(imageUrl);
     }
 
     this.changeDetector.markForCheck();

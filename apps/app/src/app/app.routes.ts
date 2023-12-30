@@ -14,8 +14,13 @@ export const routes: Routes = [
     path: 'profile/edit',
     loadComponent: () =>
       import('./profile/edit/edit-profile.component').then(
-        (c) => c.EditProfileComponent
+        (c) => c.EditProfileComponent,
       ),
+  },
+  {
+    path: 'profile/:id',
+    loadComponent: () =>
+      import('./profile/profile.component').then((c) => c.ProfileComponent),
   },
   {
     path: '',

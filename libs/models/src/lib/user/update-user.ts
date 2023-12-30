@@ -29,6 +29,17 @@ export const UpdateUserRequest = UserSchema.partial()
       .refine((files) => ACCEPTED_MIME_TYPES.includes(files?.[0].mimetype), {
         message: 'Only jpeg, jpg, png and webp files are allowed',
       }),
+    bannerPicture: z
+      .any()
+      .optional()
+      .refine((files) => files?.length === 1)
+      .refine(
+        (files) => files?.[0].size <= MAX_FILE_SIZE,
+        'Max file size is 10MB',
+      )
+      .refine((files) => ACCEPTED_MIME_TYPES.includes(files?.[0].mimetype), {
+        message: 'Only jpeg, jpg, png and webp files are allowed',
+      }),
   });
 
 export type UpdateUserRequest = typeof UpdateUserRequest._type;

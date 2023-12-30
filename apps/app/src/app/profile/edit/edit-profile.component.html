@@ -1,10 +1,16 @@
-<!-- <app-back-button
+<app-back-button
   class="absolute z-10 left-2 top-2"
   color="neutral"
-></app-back-button> -->
+  [defaultHref]="['/profile', userId]"
+></app-back-button>
 <div class="w-full flex justify-center relative h-36">
   <div class="flex justify-center items-center">
-    <img class="w-full h-full object-cover" fill priority />
+    <img
+      class="w-full h-full object-cover"
+      fill
+      priority
+      [ngSrc]="bannerPictureUri() || '/api/files/banners/' + userId"
+    />
     <button class="image-button" (click)="takePicture('banner')">
       <img
         alt="Edit profile picture"
@@ -17,7 +23,14 @@
   <ion-avatar
     class="w-24 h-24 bottom-0 left-4 translate-y-1/2 flex justify-center items-center absolute rounded-full border-white dark:border-black border-solid border-3"
   >
-    <img alt="Profile Picture" fill priority />
+    <img
+      alt="Profile Picture"
+      [ngSrc]="
+        profilePictureUri() || '/api/files/profiles/' + userId + '?thumb=true'
+      "
+      fill
+      priority
+    />
     <button class="image-button" (click)="takePicture('profile')">
       <img
         alt="Edit profile picture"
@@ -73,12 +86,17 @@
         label="Bio"
         labelPlacement="floating"
         rows="4"
+        formControlName="bio"
       ></ion-textarea>
     </ion-item>
   </div>
   <div class="input-wrapper">
     <ion-item class="ion-no-padding">
-      <ion-input label="Location" labelPlacement="floating"></ion-input>
+      <ion-input
+        label="Location"
+        labelPlacement="floating"
+        formControlName="location"
+      ></ion-input>
     </ion-item>
   </div>
   <ion-button
@@ -86,7 +104,7 @@
     class="ion-margin-top"
     type="submit"
     color="primary"
-    [disabled]="!form.valid"
+    [disabled]="!form.valid || (hasChanges$ | async) === false"
   >
     Save changes
   </ion-button>

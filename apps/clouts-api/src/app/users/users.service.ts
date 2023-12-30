@@ -33,18 +33,10 @@ export class UsersService {
   }
 
   async updateUser(id: string, data: UpdateUserRequest) {
-    let profilePictureUrl: string | undefined;
-
     if (data.profilePicture) {
       try {
         const file = data.profilePicture as FileSystemStoredFile;
-        const uploadResult = await this.storage.uploadProfileImage(
-          id,
-          file.path,
-          file.mimeType,
-        );
-
-        console.log(uploadResult);
+        await this.storage.uploadProfileImage(id, file.path, file.mimeType);
       } catch (error) {
         this.logger.error(error);
         throw new InternalServerErrorException(
@@ -53,10 +45,24 @@ export class UsersService {
       }
     }
 
+    if (data.bannerPicture) {
+      try {
+        const file = data.bannerPicture as FileSystemStoredFile;
+        await this.storage.uploadBannerImage(id, file.path, file.mimeType);
+      } catch (error) {
+        this.logger.error(error);
+        throw new InternalServerErrorException(
+          "Error uploading user's banner picture",
+        );
+      }
+    }
+
     try {
+      const { profilePicture, bannerPicture, ...rest } = data;
+
       return await this.prisma.user.update({
         where: { id },
-        data,
+        data: rest,
       });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {

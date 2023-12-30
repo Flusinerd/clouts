@@ -9,10 +9,10 @@ import {
 } from 'rxjs';
 
 export const formHasChanges = <U extends Record<string, unknown> | undefined>(
-  source: Observable<U>
+  source: Observable<U>,
 ) => {
   return function <T extends Record<string, unknown>>(
-    valueChanges: Observable<T>
+    valueChanges: Observable<T>,
   ): Observable<boolean> {
     return combineLatest([source, valueChanges]).pipe(
       debounceTime(100),
@@ -26,12 +26,28 @@ export const formHasChanges = <U extends Record<string, unknown> | undefined>(
         const keys = sourceKeys.filter((x) => valueChangesKeys.includes(x));
         const sourceStripped = keys.reduce(
           (acc, key) => ({ ...acc, [key]: sourceAsserted[key] }),
-          {}
+          {},
         ) as T;
+
         return [sourceStripped, valueChanges];
       }),
+      map(([source, valueChanges]) => {
+        // Strip out any properties that are set to undefined
+        // This is to handle the case where the form has been cleared
+        const valueChangesAsserted = valueChanges as Record<string, unknown>;
+        const valueChangesKeys = Object.keys(valueChangesAsserted);
+        const keys = valueChangesKeys.filter(
+          (x) => valueChanges[x] !== undefined,
+        );
+        const valueChangesStripped = keys.reduce(
+          (acc, key) => ({ ...acc, [key]: valueChangesAsserted[key] }),
+          {},
+        ) as T;
+
+        return [source, valueChangesStripped];
+      }),
       map(([source, valueChanges]) => isEqual(source, valueChanges) === false),
-      startWith(false)
+      startWith(false),
     );
   };
 };

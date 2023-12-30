@@ -16,12 +16,11 @@ export class ErrorInterceptor implements HttpInterceptor {
 
   intercept(
     req: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
-    console.log('intercepting request', req);
     return next.handle(req).pipe(
       catchError(async (err) => {
-        console.log(err);
+        console.error(err);
 
         if (!(err instanceof HttpErrorResponse)) {
           throw err;
@@ -42,7 +41,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
         toast.present();
         throw err;
-      })
+      }),
     );
   }
 }
