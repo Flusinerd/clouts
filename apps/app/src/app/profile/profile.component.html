@@ -1,1 +1,53 @@
-<p>profile works!</p>
+<app-back-button
+  class="absolute z-10 left-2 top-2"
+  color="neutral"
+  [defaultHref]="['home']"
+></app-back-button>
+<div class="w-full flex justify-center relative h-36">
+  <img
+    class="w-full h-full object-cover"
+    fill
+    priority
+    [ngSrc]="'/api/files/banners/' + userId()"
+  />
+  <ion-avatar
+    class="w-24 h-24 bottom-0 left-4 translate-y-1/2 flex justify-center items-center absolute rounded-full border-white dark:border-black border-solid border-3"
+  >
+    <img
+      alt="Profile Picture"
+      [ngSrc]="'/api/files/profiles/' + userId() + '?thumb=true'"
+      fill
+      priority
+    />
+  </ion-avatar>
+</div>
+
+<section
+  *ngIf="user$ | async as user"
+  class="px-4 mt-2 flex flex-col justify-between border-0 border-b border-neutral-900 dark:border-white border-solid pb-4"
+>
+  <div class="flex justify-between">
+    <h1 class="mt-12 text-xl font-bold">
+      {{ user.firstName }} {{ user.lastName }}
+    </h1>
+    <ion-button class="h-4" fill="outline" shape="round">
+      <ion-icon src="assets/icon/edit.svg" class="mr-2"></ion-icon>
+      <ion-label>Edit Profile</ion-label>
+    </ion-button>
+  </div>
+  <div
+    class="flex gap-4 items-center mb-2 text-neutral-700 dark:text-neutral-400"
+  >
+    <h2 class="text-base m-0">&commat;{{ user.displayName }}</h2>
+    <div class="flex items-center gap-2">
+      <img
+        ngSrc="assets/icon/map-pin.svg"
+        height="16"
+        width="16"
+        class="dark:invert opacity-70"
+      />
+      <span> {{ user.location }}</span>
+    </div>
+  </div>
+  {{ user.bio }}
+</section>

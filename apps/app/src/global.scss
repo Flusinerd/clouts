@@ -101,3 +101,8 @@
 * {
   box-sizing: border-box;
 }
+
+ion-button[shape='round'] {
+  --padding-start: 1rem;
+  --padding-end: 1rem;
+}
