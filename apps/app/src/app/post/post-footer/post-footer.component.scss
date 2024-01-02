@@ -1,0 +1,21 @@
+:host {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.icon {
+  width: 2rem;
+  height: 2rem;
+}
+
+.like-icon {
+  width: 2rem;
+  height: 2rem;
+  fill: none;
+}
+
+.like-icon.liked {
+  fill: var(--ion-color-secondary);
+}

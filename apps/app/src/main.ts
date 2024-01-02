@@ -12,6 +12,7 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
+import { register } from 'swiper/element/bundle';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 import { ERROR_INTERCEPTOR_PROVIDER } from './app/common/interceptors/error-interceptor';
@@ -21,6 +22,8 @@ defineCustomElements(window);
 if (environment.production) {
   enableProdMode();
 }
+
+register();
 
 bootstrapApplication(AppComponent, {
   providers: [

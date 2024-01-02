@@ -3,28 +3,30 @@
   color="neutral"
   [defaultHref]="['home']"
 ></app-back-button>
-<div class="w-full flex justify-center relative h-36">
-  <img
-    class="w-full h-full object-cover"
-    fill
-    priority
-    [ngSrc]="'/api/files/banners/' + userId()"
-  />
-  <ion-avatar
-    class="w-24 h-24 bottom-0 left-4 translate-y-1/2 flex justify-center items-center absolute rounded-full border-white dark:border-black border-solid border-3"
-  >
+@if (validUserId$ | async) {
+  <div class="w-full flex justify-center relative h-36 flex-none">
     <img
-      alt="Profile Picture"
-      [ngSrc]="'/api/files/profiles/' + userId() + '?thumb=true'"
+      class="w-full h-full object-cover"
       fill
       priority
+      [ngSrc]="'/api/files/banners/' + userId()"
     />
-  </ion-avatar>
-</div>
+    <ion-avatar
+      class="w-24 h-24 bottom-0 left-4 translate-y-1/2 flex justify-center items-center absolute rounded-full border-white dark:border-black border-solid border-3"
+    >
+      <img
+        alt="Profile Picture"
+        [ngSrc]="'/api/files/profiles/' + userId() + '?thumb=true'"
+        fill
+        priority
+      />
+    </ion-avatar>
+  </div>
+}
 
 <section
   *ngIf="user$ | async as user"
-  class="px-4 mt-2 flex flex-col justify-between border-0 border-b border-neutral-900 dark:border-white border-solid pb-4"
+  class="px-4 mt-2 flex flex-col justify-between border-0 border-b border-neutral-900 dark:border-white border-solid pb-4 flex-none"
 >
   <div class="flex justify-between">
     <h1 class="mt-12 text-xl font-bold">
@@ -50,4 +52,8 @@
     </div>
   </div>
   {{ user.bio }}
+</section>
+
+<section>
+  <app-post></app-post>
 </section>
