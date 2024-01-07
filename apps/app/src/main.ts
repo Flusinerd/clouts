@@ -11,6 +11,7 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 import { register } from 'swiper/element/bundle';
 import { AppComponent } from './app/app.component';
@@ -30,6 +31,7 @@ bootstrapApplication(AppComponent, {
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular({ mode: 'ios' }),
     provideRouter(routes),
+    provideAnimations(),
     ERROR_INTERCEPTOR_PROVIDER,
     provideHttpClient(withInterceptorsFromDi()),
     environment.production ? [] : provideQueryDevTools(),
